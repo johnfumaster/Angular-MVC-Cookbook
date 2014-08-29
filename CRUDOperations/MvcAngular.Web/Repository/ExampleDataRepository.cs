@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using MvcAngular.Web.Models;
+using System.Data.Entity.Core;
 
 namespace MvcAngular.Web.Repository
 {

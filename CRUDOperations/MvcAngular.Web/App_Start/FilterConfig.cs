@@ -43,10 +43,10 @@ namespace MvcAngular.Web
             {
                 var statusCode = HttpStatusCode.InternalServerError;
                 var responseObject = new JObject();
-                dynamic responseData = responseObject;
+                var responseData = responseObject;
                 var ex = actionExecutedContext.Exception;
 
-                responseData.message = ex.Message;
+                responseData["message"] = ex.Message;
                 AddDiagnosticInformation(ex, responseObject);
 
                 string jsonText = JsonConvert.SerializeObject(responseData, WebApiConfig.JsonSerializerSettings);
@@ -78,13 +78,13 @@ namespace MvcAngular.Web
             [Conditional("DEBUG")]
             private void AddDiagnosticInformation(Exception ex, JObject responseObject)
             {
-                dynamic responseData = responseObject;
+                var responseData = responseObject;
                 var exLst = new List<Exception>();
                 for (var x = ex; x != null; x = x.InnerException)
                 {
                     exLst.Add(x);
                 }
-                responseData.Exceptions = new JArray(
+                responseData["Exceptions"] = new JArray(
                     exLst
                         .Select(
                             x =>
@@ -95,7 +95,7 @@ namespace MvcAngular.Web
                                         message = x.Message,
                                     }))
                         .ToList());
-                responseData.StackTrace = ex.StackTrace;
+                responseData["StackTrace"] = ex.StackTrace;
             }
         }
 
